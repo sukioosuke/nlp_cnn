@@ -104,7 +104,7 @@ class PreProcessor:
 
                     i += 1
 
-        f = file(self.docsDumpedFileName,'w')
+        f = open(self.docsDumpedFileName,'w')
         pickle.dump(docs, f)
         f.close()
         return docs
@@ -117,9 +117,9 @@ class PreProcessor:
         fm2 = open(m2FileName, 'w')
 
         for doc in docs:
-            for slistIndex in xrange(len(doc.sentences)):
+            for slistIndex in range(len(doc.sentences)):
                 slist = doc.sentences[slistIndex]
-                for sentid in xrange(len(slist)):
+                for sentid in range(len(slist)):
 
                     sent = slist[sentid]
 
@@ -289,7 +289,7 @@ class PreProcessor:
         start = 0
         if wdstart != 0:
             s = ''
-            for i in xrange(len(pseudoWordsList)):
+            for i in range(len(pseudoWordsList)):
                 s += pseudoWordsList[i]
                 if s == words[wdstart-1]:
                     start = i + 1
@@ -304,7 +304,7 @@ class PreProcessor:
         if wdend != len(words):
 
             s = ''
-            for i in xrange(len(pseudoWordsList)):
+            for i in range(len(pseudoWordsList)):
                 s = pseudoWordsList[len(pseudoWordsList) - i - 1] + s
                 if s == words[wdend]:
                     end = len(pseudoWordsList) - i - 1
@@ -364,13 +364,13 @@ def usage_debug():
     u += '   generate conllFile, annotationFile, m2File \n\n'
     u += '-l sgmlFileName conllFileName annotationFileName m2FileName \n' 
     u += '   generate conllFile, annotationFile, m2FileName from sgmlFile, without parser info.\n'
-    print u
+    print >> u
 
 def usage_release():
     u = '\nUsage: python preprocess.py OPTIONS sgmlFileName conllFileName annotationFileName m2FileName \n\n'
     u += '-o    generate conllFile, annotationFile, m2File from sgmlFile, with parser info.\n' 
     u += '-l    generate conllFile, annotationFile, m2File from sgmlFile, without parser info.\n'   
-    print u
+    print >> u
 
 
 
@@ -487,7 +487,7 @@ if __name__ == '__main__':
         if os.path.isfile(ppr.docsDumpedFileName) == False:
             print >> sys.stderr, '-c option needs dumped \'docs\' file. Please use -g option first. '
             sys.exit(2)
-        f = file(ppr.docsDumpedFileName, 'r')
+        f = open(ppr.docsDumpedFileName, 'r')
         docs = pickle.load(f)
         f.close()
 
