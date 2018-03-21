@@ -23,7 +23,7 @@ from nuclesgmlparser import nuclesgmlparser
 from nucle_doc import *
 import nltk.data
 from nltk import word_tokenize
-import cPickle as pickle
+import _pickle as pickle
 import re
 import sys
 import os
@@ -43,7 +43,6 @@ class PreProcessor:
         f = open(fn, 'r')
         parser = nuclesgmlparser()
         filestr = f.read()
-        filestr = filestr.decode('utf-8')
         
         #Fix Reference tag
         p = re.compile(r'(<REFERENCE>\n<P>\n.*\n)<P>')
@@ -80,7 +79,7 @@ class PreProcessor:
                     doc.addSentence(sent)
                     tokenizedSentStr = ' '.join(sent.getWords()) + '\n'
 
-                    f.write(tokenizedSentStr.encode('utf-8'))
+                    f.write(tokenizedSentStr)
         f.close()
 
         if option == 0:

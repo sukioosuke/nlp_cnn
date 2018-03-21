@@ -22,7 +22,7 @@ from nucle_doc import *
 import nltk.data
 from nltk import word_tokenize
 from operator import itemgetter
-import cPickle as pickle
+import _pickle as pickle
 import re
 import sys
 import os
@@ -84,11 +84,11 @@ def moderateAnnotations(contestDocs, annotBoard, origDocSet):
             annotBoard[nid] = {}
 
         origDoc = origDocSet[nid]
-        for pid in xrange(len(origDoc.sentences)):
+        for pid in range(len(origDoc.sentences)):
             slist = origDoc.sentences[pid]
             if not annotBoard[nid].has_key(pid):
                 annotBoard[nid][pid] = {}
-            for sentid in xrange(len(slist)):
+            for sentid in range(len(slist)):
                 sent = slist[sentid]
                 if not annotBoard[nid][pid].has_key(sentid):
                     annotBoard[nid][pid][sentid] = []
@@ -135,9 +135,9 @@ def createM2File(origDocs, mistakesBoard, m2FileName):
 
     for doc in origDocs:
         nid = int(doc.docattrs[0][1]) # nid of current document
-        for slistIndex in xrange(len(doc.sentences)):
+        for slistIndex in range(len(doc.sentences)):
             slist = doc.sentences[slistIndex]
-            for sentid in xrange(len(slist)):
+            for sentid in range(len(slist)):
 
                 sent = slist[sentid]
 
@@ -289,7 +289,7 @@ def tokenizeCorrectionStr(correctionStr, wdstart, wdend, words):
     start = 0
     if wdstart != 0:
         s = ''
-        for i in xrange(len(pseudoWordsList)):
+        for i in range(len(pseudoWordsList)):
             s += pseudoWordsList[i]
             if s == words[wdstart-1]:
                 start = i + 1
@@ -304,7 +304,7 @@ def tokenizeCorrectionStr(correctionStr, wdstart, wdend, words):
     if wdend != len(words):
 
         s = ''
-        for i in xrange(len(pseudoWordsList)):
+        for i in range(len(pseudoWordsList)):
             s = pseudoWordsList[len(pseudoWordsList) - i - 1] + s
             if s == words[wdend]:
                 end = len(pseudoWordsList) - i - 1

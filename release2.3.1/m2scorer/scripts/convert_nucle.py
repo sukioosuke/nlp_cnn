@@ -62,9 +62,9 @@ class PreProcessor:
     def m2FileGeneration(self, docs):
         
         for doc in docs:
-            for slistIndex in xrange(len(doc.sentences)):
+            for slistIndex in range(len(doc.sentences)):
                 slist = doc.sentences[slistIndex]
-                for sentid in xrange(len(slist)):
+                for sentid in range(len(slist)):
 
                     sent = slist[sentid]
 
@@ -170,7 +170,7 @@ class PreProcessor:
                     
 
 def usage_release():
-    print '\nUsage: python preprocess.py sgmlFile > outputFile \n\n'
+    print >> '\nUsage: python preprocess.py sgmlFile > outputFile \n\n'
 
 if __name__ == '__main__':
     opts, args = getopt.getopt(sys.argv[1:], "")

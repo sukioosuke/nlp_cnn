@@ -131,7 +131,7 @@ fin.close()
 
 p, r, f1 = levenshtein.batch_multi_pre_rec_f1(system_sentences, source_sentences, gold_edits, max_unchanged_words, ignore_whitespace_casing, verbose, very_verbose)
 
-print "Precision   : %.4f" % p
-print "Recall      : %.4f" % r
-print "F1          : %.4f" % f1
+print >> "Precision   : %.4f" % p
+print >> "Recall      : %.4f" % r
+print >> "F1          : %.4f" % f1
 

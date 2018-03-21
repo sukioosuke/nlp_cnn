@@ -142,7 +142,7 @@ if __name__ == "__main__":
             for s_start, s_end, s in slice(p):
                 if s.strip() == '':
                     continue
-                print "S", s.encode('utf8')
+                print >> "S", s.encode('utf8')
                 if gold :
                    this_edits = [e for e in edits if e[0] >= offset + s_start
                                 and e[1] < offset + s_end and e[2] == part_no]
@@ -153,6 +153,6 @@ if __name__ == "__main__":
                       cor = "||".join(e[5])
                       req = "REQUIRED" if e[6] == False else "OPTIONAL"
                       out =  "A %d %d|||%s|||%s|||%s|||-NONE-|||0" % (start, end, etype, cor, req)
-                      print out.encode('utf8')
-                print ""
+                      print >> out.encode('utf8')
+                print >> ""
             offset += s_end 

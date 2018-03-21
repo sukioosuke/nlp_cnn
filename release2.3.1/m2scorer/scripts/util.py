@@ -142,7 +142,7 @@ def fix_cp1252codes(text):
             return cp1252.get(s, s)
         if isinstance(text, type("")):
             # make sure we have a unicode string
-            text = unicode(text, "iso-8859-1")
+            text = str(text, "iso-8859-1")
         text = re.sub(u"[\x80-\x9f]", fixup, text)
     return text
 

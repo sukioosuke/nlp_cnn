@@ -78,7 +78,7 @@ class nucle_sent:
             print >> sys.stderr, 'Error in buiding constituent tree bits: different length with words.'
             print >> sys.stderr, len(r), len(self.words)
             print >> sys.stderr, ' '.join(r).encode('utf-8')
-            print >> sys.stderr, words
+            print >> sys.stderr, self.words
             sys.exit(1)
 
         self.constituentlist = r
@@ -142,7 +142,7 @@ class nucle_sent:
             print >> sys.stderr, 'len poslist:', len(poslist), poslist
             sys.exit(1)
 
-        for wdindex in xrange(len(words)):
+        for wdindex in range(len(words)):
 
             word = words[wdindex]
 
