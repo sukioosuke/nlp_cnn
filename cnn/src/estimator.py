@@ -28,7 +28,7 @@ layer1 = add_layer(x_data, 1, 10)
 predition = add_layer(layer1, 10, 1, activation_function=None)
 
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - predition), reduction_indices=[1]))
-train = tf.train.GradientDescentOptimizer(0.05).minimize(loss)
+train = tf.train.RMSPropOptimizer(0.05).minimize(loss)
 
 init = tf.global_variables_initializer()
 
