@@ -1,56 +1,1 @@
-#import data
-import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
-
-
-def add_layer(inputs, in_size, out_size, activation_function=tf.nn.relu):
-    Weights = tf.Variable(tf.random_normal([in_size, out_size]))
-    biases = tf.Variable(tf.random_normal([1, out_size]) + 0.1)
-
-    Wx_plus_b = tf.matmul(inputs, Weights) + biases
-
-    if activation_function is None:
-        outputs = Wx_plus_b
-    else:
-        outputs = activation_function(Wx_plus_b)
-
-    return outputs
-
-x_data = np.linspace(-1, 1, 300, dtype=np.float32)[:, np.newaxis]
-noise = np.random.normal(0, 0.05, x_data.shape).astype(np.float32)
-y_data = np.square(x_data) + np.log(np.abs(x_data + noise)) - x_data
-
-xs = tf.placeholder(tf.float32, [None, 1])
-ys = tf.placeholder(tf.float32, [None, 1])
-
-layer1 = add_layer(x_data, 1, 10)
-predition = add_layer(layer1, 10, 1, activation_function=None)
-
-loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - predition), reduction_indices=[1]))
-train = tf.train.RMSPropOptimizer(0.05).minimize(loss)
-
-init = tf.global_variables_initializer()
-
-session = tf.Session()
-session.run(init)
-
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
-ax.scatter(x_data, y_data)
-plt.ion()
-plt.show()
-
-for step in range(2000):
-    session.run(train, feed_dict={xs:x_data, ys:y_data})
-    if step % 50 == 0:
-        try:
-            ax.lines.remove(line[0])
-        except Exception:
-            pass
-        predition_value = session.run(predition, feed_dict={xs: x_data})
-        line = ax.plot(x_data, predition_value, 'r', lw=5)
-        plt.pause(1)
-        # print(session.run(loss, feed_dict={xs:x_data, ys:y_data}))
-        # print(step, session.run(Weights1), session.run(Weights2), session.run(biases))
-session.close()
+# import datafrom __future__ import print_functionfrom tensorflow.examples.tutorials.mnist import input_dataimport tensorflow as tfimport numpy as npimport matplotlib.pyplot as pltdef add_layer(inputs, in_size, out_size, n_layer, activation_function=tf.nn.relu):    layer_name = 'layer%s' % n_layer  ## define a new var    with tf.name_scope("layer"):        with tf.name_scope("weights"):            Weights = tf.Variable(tf.random_normal([in_size, out_size]), name="W")            tf.summary.histogram(layer_name + '/weights', Weights)  # tensorflow >= 0.12        with tf.name_scope("biases"):            biases = tf.Variable(tf.random_normal([1, out_size]) + 0.1, name="b")            tf.summary.histogram(layer_name + '/biases', biases)  # Tensorflow >= 0.12        with tf.name_scope("Wx_plus_b"):            Wx_plus_b = tf.matmul(inputs, Weights) + biases        if activation_function is None:            outputs = Wx_plus_b        else:            outputs = activation_function(Wx_plus_b)        tf.summary.histogram(layer_name + '/outputs', outputs)  # Tensorflow >= 0.12        return outputsdef compute_accuracy(v_xs, v_ys):    global prediction    y_pre = session.run(prediction, feed_dict={xs: v_xs})    with tf.name_scope("correct_prediction"):        correct_prediction = tf.equal(tf.argmax(y_pre, 1), tf.argmax(v_ys, 1))        tf.summary.histogram('correct', tf.cast(correct_prediction, tf.float32))  # tensorflow >= 0.12    accrucy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))    result = session.run(accrucy)    return resultwith tf.name_scope('inputs'):    xs = tf.placeholder(tf.float32, [None, 784], name="x_input")    ys = tf.placeholder(tf.float32, [None, 10], name="y_input")mnist = input_data.read_data_sets("MNIST_data", one_hot=True)prediction = add_layer(xs, 784, 10, "predition", activation_function=tf.nn.softmax)with tf.name_scope("loss"):    cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction), reduction_indices=[1]))  # loss    tf.summary.histogram('loss', cross_entropy)  # Tensorflow >= 0.12with tf.name_scope("train"):    train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)session = tf.Session()merged = tf.summary.merge_all()  # tensorflow >= 0.12writer = tf.summary.FileWriter("logs/", session.graph)init = tf.global_variables_initializer()session.run(init)for i in range(1000):    batch_xs, batch_ys = mnist.train.next_batch(100)    session.run(train_step, feed_dict={xs: batch_xs, ys: batch_ys})    if i % 50 == 0:        print(compute_accuracy(mnist.test.images, mnist.test.labels))session.close()
