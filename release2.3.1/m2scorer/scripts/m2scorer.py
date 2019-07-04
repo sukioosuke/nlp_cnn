@@ -61,7 +61,7 @@ def load_annotation(gold_file):
             if etype == 'noop':
                 start_offset = -1
                 end_offset = -1
-            corrections =  [c.strip() if c != '-NONE-' else '' for c in fields[2].split('||')]
+            corrections = [c.strip() if c != '-NONE-' else '' for c in fields[2].split('||')]
             # NOTE: start and end are *token* offsets
             original = ' '.join(' '.join(sentence).split()[start_offset:end_offset])
             annotator = int(fields[5])
